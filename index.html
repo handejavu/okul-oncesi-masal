@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Masal Tamamlama Oyunu</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      background-color: #f0f8ff;
+    }
+    h1 { color: #333; }
+    .secmeler { margin: 20px; }
+    button {
+      font-size: 22px;
+      margin: 10px;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background-color: #ffe082;
+      transition: 0.3s;
+    }
+    button:hover { background-color: #ffca28; }
+    #masal {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #444;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌟 Masal Tamamlama 🌟</h1>
+  <div id="soru"></div>
+  <div id="secenekler" class="secmeler"></div>
+  <div id="masal"></div>
+
+  <script>
+    let adim = 0;
+    let secimler = {};
+
+    function baslat() {
+      adim = 1;
+      secimler = {};
+      document.getElementById("masal").innerText = "";
+      soruyuGoster("Kahramanımız kim olsun?", [
+        { emoji: "🐇", text: "Tavşan" },
+        { emoji: "🐱", text: "Kedi" },
+        { emoji: "👦🏻", text: "Çocuk" },
+        { emoji: "🤖", text: "Robot" }
+      ]);
+    }
+
+    function soruyuGoster(soru, secenekler) {
+      document.getElementById("soru").innerText = soru;
+      let html = "";
+      secenekler.forEach(sec => {
+        html += `<button onclick="secimYap('${sec.text}')">${sec.emoji} ${sec.text}</button>`;
+      });
+      document.getElementById("secenekler").innerHTML = html;
+    }
+
+    function secimYap(secim) {
+      if (adim === 1) {
+        secimler.karakter = secim;
+        adim = 2;
+        soruyuGoster(`${secim} nerede yaşasın?`, [
+          { emoji: "🏰", text: "Saray" },
+          { emoji: "🏠", text: "Ev" },
+          { emoji: "🌊", text: "Deniz Kıyısı" }
+        ]);
+      } 
+      else if (adim === 2) {
+        secimler.mekan = secim;
+        adim = 3;
+        soruyuGoster(`Bir gün ${secimler.karakter}'ın başına ne gelsin?`, [
+          { emoji: "🗝️", text: "Parlak bir anahtar buldu" },
+          { emoji: "🌈", text: "Gökkuşağından geçti" },
+          { emoji: "🕳️", text: "Gizemli bir çukura düştü" }
+        ]);
+      } 
+      else if (adim === 3) {
+        secimler.macera = secim;
+        adim = 4;
+        soruyuGoster(`Yolda yürürken kimle karşılaşsın?`, [
+          { emoji: "🦉", text: "Şaşkın Baykuş" },
+          { emoji: "🐉", text: "Sakar Ejderha" },
+          { emoji: "👵", text: "Meraklı Nine" }
+        ]);
+      } 
+      else if (adim === 4) {
+        secimler.karsilasma = secim;
+        adim = 5;
+        soruyuGoster(`${secimler.karakter} ve ${secimler.karsilasma}, kimden yardım alsınlar?`, [
+          { emoji: "🧙", text: "Ak Sakallı Dede" },
+          { emoji: "ଳ", text: "Denizanası" },
+          { emoji: "👨‍🌾", text: "Çiftçi" }
+        ]);
+      } 
+      else if (adim === 5) {
+        secimler.yardimci = secim;
+        adim = 6;
+        soruyuGoster("Masal nasıl bitsin?", [
+          { emoji: "🎉", text: "Büyük bir şenlikle" },
+          { emoji: "🏆", text: "Bir ödül kazanarak" },
+          { emoji: "❤️", text: "Dostlukla oyunlar oynayarak" }
+        ]);
+      } 
+      else if (adim === 6) {
+        secimler.mutlu_son = secim;
+        masaliBitir();
+      }
+    }
+
+    function masaliBitir() {
+      let sonuc = `Evvel zaman içinde, kalbur saman içinde, 
+${secimler.karakter} adında bir kahraman varmış.
+
+Bu kahraman ${secimler.mekan} adlı yerde yaşarmış. 
+Bir gün, başına çok ilginç bir şey gelmiş: ${secimler.macera}!
+
+Yolda yürürken ${secimler.karsilasma} ile karşılaşmış. 
+O da kahramanımıza yardım etmek istemiş.
+
+Sonra birlikte ${secimler.yardimci}’dan destek almışlar. 
+Böylece sorun çözülmüş ve büyük bir mutluluk yaşamışlar. 
+
+Ve masal ${secimler.mutlu_son} ile bitmiş. 🌟`;
+
+      document.getElementById("soru").innerText = "Masal Tamamlandı 🎉";
+      document.getElementById("secenekler").innerHTML = "<button onclick='baslat()'>↩️ Tekrar Oyna</button>";
+      document.getElementById("masal").innerText = sonuc;
+    }
+
+    // Oyunu başlat
+    baslat();
+  </script>
+
+</body>
+</html>
